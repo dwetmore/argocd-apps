@@ -9,6 +9,9 @@ spec:
     repoURL: https://github.com/dwetmore/notes-app.git
     targetRevision: main
     path: deploy/overlays/dev
+    repoURL: https://github.com/dwetmore/notes-app-gitops.git
+    targetRevision: main
+    path: overlays/dev
   destination:
     server: https://kubernetes.default.svc
     namespace: notes-app
