@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/dwetmore/chatbot-gitops.git
     targetRevision: main
-    path: "overlays/dev-ollama"
+    path: overlays/dev-ollama
   destination:
     server: https://kubernetes.default.svc
     namespace: chatbot
