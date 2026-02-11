@@ -14,3 +14,16 @@ spec:
     namespace: default
   syncPolicy:
     automated: {}
+
+    repoURL: https://github.com/dwetmore/notes-app-gitops.git
+    targetRevision: main
+    path: overlays/dev
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: notes-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -14,3 +14,14 @@ spec:
     namespace: default
   syncPolicy:
     automated: {}
+    targetRevision: main
+    path: overlays/dev-ollama
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: chatbot
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
