@@ -25,6 +25,9 @@ jobs:
             | tar -xz kubeconform
           sudo install -m 0755 kubeconform /usr/local/bin/kubeconform
 
+      - name: Render Argo CD overlay
+        run: kustomize build argocd/overlays/repo-server-copyutil-idempotent > rendered-argocd.yaml
+
       - name: Render manifests
         run: kustomize build . > rendered.yaml
 
