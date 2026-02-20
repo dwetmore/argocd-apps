@@ -5,3 +5,4 @@ resources:
   - apps/chatbot.yaml
   - apps/notes-app.yaml
   - apps/gpu-observability.yaml
+  - apps/space-invaders.yaml
