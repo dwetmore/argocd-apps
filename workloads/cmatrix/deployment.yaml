@@ -17,10 +17,8 @@ spec:
     spec:
       containers:
         - name: cmatrix
-          image: localhost:32000/cmatrix:cmatrix1
+          image: localhost:32000/cmatrix:novnc1
           imagePullPolicy: Always
-          env:
-            - name: TERM
-              value: xterm
-          stdin: true
-          tty: true
+          ports:
+            - containerPort: 6080
+              name: novnc
