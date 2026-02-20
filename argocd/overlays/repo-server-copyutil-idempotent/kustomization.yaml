@@ -9,3 +9,9 @@ patches:
       kind: Deployment
       name: argocd-repo-server
     path: patch-argocd-repo-server-copyutil.yaml
+  - target:
+      group: apiextensions.k8s.io
+      version: v1
+      kind: CustomResourceDefinition
+      name: applicationsets.argoproj.io
+    path: patch-applicationset-crd-sync-options.yaml
