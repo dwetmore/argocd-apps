@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: cmatrix
-          image: localhost:32000/cmatrix:novnc1
+          image: localhost:32000/cmatrix:novnc2
           imagePullPolicy: Always
           ports:
             - containerPort: 6080
