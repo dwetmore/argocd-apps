@@ -1,5 +1,16 @@
 # argocd-apps
 
+## What it is
+An Argo CD app-of-apps control repository for managing multiple workloads from a single Git source of truth.
+
+## What it does
+- Bootstraps Argo CD with a root `Application`.
+- Defines child applications for chatbot, notes-app, GPU observability, space-invaders, and cmatrix.
+- Reconciles cluster resources continuously to match Git state.
+
+## Why it matters
+It demonstrates scalable GitOps platform operations: one repo can consistently deploy and govern a full set of services.
+
 ## Migration
 
 If `chatbot` and `notes-app` Applications already exist in your cluster, you can still adopt this repo safely.
