@@ -28,6 +28,7 @@ This repository bootstraps Argo CD using the App-of-Apps pattern.
 - `apps/notes-app.yaml` - Notes app workload application.
 - `apps/gpu-observability.yaml` - GPU observability workload application.
 - `apps/space-invaders.yaml` - Space Invaders workload application.
+- `apps/cmatrix.yaml` - cmatrix workload application.
 
 ## Bootstrap
 

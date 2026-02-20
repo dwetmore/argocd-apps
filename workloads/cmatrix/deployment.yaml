@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cmatrix
+  namespace: default
+  labels:
+    app: cmatrix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cmatrix
+  template:
+    metadata:
+      labels:
+        app: cmatrix
+    spec:
+      containers:
+        - name: cmatrix
+          image: dwetmore/cmatrix:cmatrix1
+          imagePullPolicy: Always
+          env:
+            - name: TERM
+              value: xterm
+          stdin: true
+          tty: true
