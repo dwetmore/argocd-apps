@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: cmatrix
-          image: dwetmore/cmatrix:cmatrix1
+          image: localhost:32000/cmatrix:cmatrix1
           imagePullPolicy: Always
           env:
             - name: TERM
