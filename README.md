@@ -1,54 +1,75 @@
 # argocd-apps
 
-## What it is
-An Argo CD app-of-apps control repository for managing multiple workloads from a single Git source of truth.
+Argo CD app-of-apps control repository for this MicroK8s environment.
 
-## What it does
-- Bootstraps Argo CD with a root `Application`.
-- Defines child applications for chatbot, notes-app, GPU observability, space-invaders, and cmatrix.
-- Reconciles cluster resources continuously to match Git state.
+## Purpose
 
-## Why it matters
-It demonstrates scalable GitOps platform operations: one repo can consistently deploy and govern a full set of services.
+- Provide a single Git source of truth for platform and workload applications.
+- Bootstrap Argo CD child `Application` resources from one root app.
+- Continuously reconcile live cluster state to Git.
 
-## Migration
+## Managed applications
 
-If `chatbot` and `notes-app` Applications already exist in your cluster, you can still adopt this repo safely.
+Current applications included through `kustomization.yaml`:
 
-1. Apply `root/app-of-apps.yaml`.
-2. Argo CD will start managing those existing Applications as resources from this repo.
-3. If live Application definitions differ from these manifests, Argo CD will reconcile toward the Git state.
+- `argocd`
+- `chatbot`
+- `cmatrix`
+- `notes-app`
+- `gpu-observability`
+- `space-invaders`
+- `dependency-track-syft-gitops` (Dependency-Track + PostgreSQL + Syft SBOM stack)
 
-Verify after sync:
+## Repository layout
 
-```bash
-k -n argocd get applications -o wide
-k -n argocd describe application chatbot | sed -n '1,120p'
-k -n argocd describe application notes-app | sed -n '1,120p'
-```
-
-# Argo CD Bootstrap (App-of-Apps)
-
-This repository bootstraps Argo CD using the App-of-Apps pattern.
-
-## Layout
-
-- `app-of-apps.yaml` - Root Argo CD `Application` that points to this repo.
-- `kustomization.yaml` - Includes all child applications in `apps/`.
-- `apps/chatbot.yaml` - Chatbot workload application.
-- `apps/notes-app.yaml` - Notes app workload application.
-- `apps/gpu-observability.yaml` - GPU observability workload application.
-- `apps/space-invaders.yaml` - Space Invaders workload application.
-- `apps/cmatrix.yaml` - cmatrix workload application.
-- `apps/dependency-track-syft-gitops.yaml` - Supply chain stack (Dependency-Track + Syft) application.
+- `app-of-apps.yaml`: root app manifest.
+- `root/app-of-apps.yaml`: same bootstrap pattern under `root/`.
+- `kustomization.yaml`: lists child app manifests in `apps/`.
+- `apps/*.yaml`: child Argo CD `Application` definitions.
+- `argocd/overlays/...`: Argo CD platform patches.
 
 ## Bootstrap
 
-1. Ensure Argo CD is installed.
-2. Apply the root app:
+1. Ensure Argo CD is installed in `argocd` namespace.
+2. Apply root app:
 
 ```bash
-kubectl apply -f app-of-apps.yaml -n argocd
+kubectl apply -n argocd -f app-of-apps.yaml
 ```
 
-Argo CD will then create and continuously reconcile all child applications listed in `kustomization.yaml`.
+## Verify reconciliation
+
+```bash
+kubectl -n argocd get applications -o wide
+kubectl -n argocd get application argocd-apps -o yaml | rg -n 'sync|health|revision'
+```
+
+## Supply-chain stack reference
+
+`apps/dependency-track-syft-gitops.yaml` points to:
+
+- Repo: `https://github.com/dwetmore/dependency-track-syft-gitops.git`
+- Path: `.`
+- Revision: `main`
+
+For detailed operational docs, see that repo:
+
+- `dependency-track-syft-gitops/README.md`
+- `dependency-track-syft-gitops/docs/OPERATIONS.md`
+- `dependency-track-syft-gitops/docs/TROUBLESHOOTING.md`
+
+## Common operations
+
+Force refresh root app:
+
+```bash
+kubectl -n argocd patch application argocd-apps \
+  --type merge \
+  -p '{"metadata":{"annotations":{"argocd.argoproj.io/refresh":"hard"}}}'
+```
+
+Check only the supply-chain apps:
+
+```bash
+kubectl -n argocd get applications | rg 'dependency-track|syft'
+```
