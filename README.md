@@ -40,6 +40,7 @@ This repository bootstraps Argo CD using the App-of-Apps pattern.
 - `apps/gpu-observability.yaml` - GPU observability workload application.
 - `apps/space-invaders.yaml` - Space Invaders workload application.
 - `apps/cmatrix.yaml` - cmatrix workload application.
+- `apps/dependency-track-syft-gitops.yaml` - Supply chain stack (Dependency-Track + Syft) application.
 
 ## Bootstrap
 

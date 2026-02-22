@@ -4,6 +4,7 @@ resources:
   - apps/argocd.yaml
   - apps/cmatrix.yaml
   - apps/chatbot.yaml
+  - apps/dependency-track-syft-gitops.yaml
   - apps/notes-app.yaml
   - apps/gpu-observability.yaml
   - apps/space-invaders.yaml
